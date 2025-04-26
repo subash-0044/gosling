@@ -231,8 +231,7 @@ result, err := future.Get(context.Background())
 ```
 
 ## 📚 Documentation
-
-For complete documentation, visit [gosling.dev](https://example.com) or check the [GoDoc](https://pkg.go.dev/github.com/yourusername/gosling).
+Upcoming! 
 
 ## 🤝 Contributing
 
