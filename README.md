@@ -148,14 +148,7 @@ pool := gosling.NewTaskPool(
 ## 📊 Performance
 
 Gosling is designed to be lightweight and efficient:
-
-| Scenario | Tasks/sec | Memory Usage | CPU Usage |
-|----------|-----------|--------------|-----------|
-| 1 worker | 10,000    | ~1MB         | ~5%       |
-| 10 workers | 50,000  | ~5MB         | ~25%      |
-| 100 workers | 200,000 | ~50MB       | ~60%      |
-
-*Results from benchmarks on standard hardware (8-core CPU, 16GB RAM)*
+Results Upcoming!
 
 ## 🤔 Why Gosling?
 
