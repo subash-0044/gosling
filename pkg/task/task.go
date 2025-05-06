@@ -30,30 +30,39 @@ type Task[T any] interface {
 }
 
 // DefaultTask is a default implementation of the Task interface.
-type DefaultTaskItem[T any] struct {
+type defaultTaskItem[T any] struct {
 	fn       func() (T, error)
 	ctx      context.Context
 	priority int
 }
 
+// NewTask creates a new task with the given function and context.
+func NewTask[T any](fn func() (T, error)) *defaultTaskItem[T] {
+	return &defaultTaskItem[T]{
+		fn:  fn,
+		ctx: context.Background(),
+		priority: 0,
+	}
+}
+
 // Execute performs the task and returns an error if it fails.
-func (t *DefaultTaskItem[T]) Execute() (T, error) {
+func (t *defaultTaskItem[T]) Execute() (T, error) {
 	return t.fn()
 }
 
 // WithContext sets the context for the task.
-func (t *DefaultTaskItem[T]) WithContext(ctx context.Context) Task[T] {
+func (t *defaultTaskItem[T]) WithContext(ctx context.Context) Task[T] {
 	t.ctx = ctx
 	return t
 }
 
 // Context returns the context for the task.
-func (t *DefaultTaskItem[T]) Context() context.Context {
+func (t *defaultTaskItem[T]) Context() context.Context {
 	return t.ctx
 }
 
 // IsCancelled checks if the task has been canceled.
-func (t *DefaultTaskItem[T]) IsCancelled() bool {
+func (t *defaultTaskItem[T]) IsCancelled() bool {
 	select {
 	case <-t.ctx.Done():
 		return true
@@ -63,17 +72,17 @@ func (t *DefaultTaskItem[T]) IsCancelled() bool {
 }
 
 // Deadline returns the deadline for the task.
-func (t *DefaultTaskItem[T]) Deadline() (time.Time, bool) {
+func (t *defaultTaskItem[T]) Deadline() (time.Time, bool) {
 	return t.ctx.Deadline()
 }
 
 // Priority returns the priority of the task.
-func (t *DefaultTaskItem[T]) Priority() int {
+func (t *defaultTaskItem[T]) Priority() int {
 	return t.priority
 }
 
 // SetPriority sets the priority of the task.
-func (t *DefaultTaskItem[T]) SetPriority(priority int) Task[T] {
+func (t *defaultTaskItem[T]) SetPriority(priority int) Task[T] {
 	t.priority = priority
 	return t
 }
