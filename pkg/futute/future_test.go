@@ -193,7 +193,7 @@ func TestFutureConcurrentAccess(t *testing.T) {
 
 		var wg1 sync.WaitGroup
 		wg1.Add(goroutines)
-
+		
 		for i := 0; i < goroutines; i++ {
 			go func() {
 				defer wg1.Done()
@@ -204,15 +204,15 @@ func TestFutureConcurrentAccess(t *testing.T) {
 				}
 			}()
 		}
-
+		
 		time.Sleep(50 * time.Millisecond)
 		f.Complete(42, nil)
-
+		
 		var wg2 sync.WaitGroup
 		wg2.Add(goroutines)
 		results := make([]int, goroutines)
 		errors := make([]error, goroutines)
-
+		
 		for i := 0; i < goroutines; i++ {
 			i := i
 			go func() {
@@ -220,10 +220,10 @@ func TestFutureConcurrentAccess(t *testing.T) {
 				results[i], errors[i] = f.Get(ctx)
 			}()
 		}
-
+		
 		wg1.Wait()
 		wg2.Wait()
-
+		
 		for i := 0; i < goroutines; i++ {
 			assert.NoError(t, errors[i])
 			assert.Equal(t, 42, results[i])
@@ -249,7 +249,7 @@ func TestFutureWithDifferentTypes(t *testing.T) {
 			Name string
 			Age  int
 		}
-
+		
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 		f := NewFuture[TestStruct](cancel)
